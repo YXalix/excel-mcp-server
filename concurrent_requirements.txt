@@ -1,0 +1,2 @@
+# 并发 Excel MCP 客户端的额外依赖
+aiohttp>=3.8.0

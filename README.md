@@ -22,10 +22,11 @@ A Model Context Protocol (MCP) server that lets you manipulate Excel files witho
 - 🔧 **Sheet Management**: Copy, rename, delete worksheets with ease
 - 🔌 **Triple transport support**: stdio, SSE (deprecated), and streamable HTTP
 - 🌐 **Remote & Local**: Works both locally and as a remote service
+- 🔄 **Proxy mode**: Supports dynamic spawning of stdio processes for each client
 
 ## Usage
 
-The server supports three transport methods:
+The server supports multiple transport methods:
 
 ### 1. Stdio Transport (for local use)
 
@@ -77,6 +78,29 @@ uvx excel-mcp-server streamable-http
    }
 }
 ```
+
+### 4. Proxy Mode (Dynamic stdio process management)
+
+```bash
+uvx excel-mcp-server proxy
+```
+
+**Proxy mode connection**:
+```json
+{
+   "mcpServers": {
+      "excel": {
+         "url": "http://localhost:8017/mcp",
+      }
+   }
+}
+```
+
+This mode runs an HTTP server that dynamically spawns individual stdio processes for each client session. Benefits:
+- Isolated execution environment for each client
+- Session persistence with automatic cleanup of idle processes
+- Compatible with both regular HTTP and WebSocket connections
+- Uses the standard streamable-HTTP protocol for client communication
 
 ## Environment Variables & File Path Handling
 
